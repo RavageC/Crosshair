@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Crosshair",
+  "description": "Provides additional functionality when playing Spot The Ball at botb.com",
+  "version": "0.1",
+  "icons": {
+    "16": "/assets/icons/icon_16.png",
+    "19": "/assets/icons/icon_19.png",
+    "38": "/assets/icons/icon_38.png",
+    "48": "/assets/icons/icon_48.png",
+    "128": "/assets/icons/icon_128.png",
+    "256": "/assets/icons/icon_256.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "/assets/icons/icon_16.png",
+      "19": "/assets/icons/icon_19.png",
+      "38": "/assets/icons/icon_38.png",
+      "48": "/assets/icons/icon_48.png",
+      "128": "/assets/icons/icon_128.png",
+      "256": "/assets/icons/icon_256.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.botb.com/spot-the-ball*"],
+      "js": ["content.js", "background.js"]
+    }
+  ],
+  "host_permissions": ["https://www.botb.com/spot-the-ball*"]
+}

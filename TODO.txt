@@ -1,0 +1,30 @@
+Features to incorporate:
+
+// SET TIME ASIDE TO ADD TO THIS LIST //
+// UPDATE: Think this list is long enough for now... //
+
+priority 1: configure the appearance of the extension
+
+2: visual indication of your average coord on screen on the picture
+
+3: display average coord numbers on screen (Further enhance this by using the BOTB target zone image)
+
+4: Type in a coord and press the place button to place it
+
+4.5: Remove magnifier completely
+
+5: Remove all Coords (clear all) - Definitely will need an "Are you sure?" prompt
+
+6: Draw shapes on the image (could enhance this further by providing the user number of coords inside the square)
+
+7: togglable gridlines in the magnified area (or just the ability to snap between coords)
+
+8: a football overlay on the magnifying area that's togglable (Could be further customised by adding a few different looking footballs)
+ 
+9: the ability to hide visibility of coords already placed so you can draw lines again without any bias.
+
+10: Play with the full 4k image (Assume this would have to be zoomed in on most people's screens, but people with 4k screens could play it full
+
+
+-- BIT OF A LONG SHOT -- WONT TOUCH THESE UNTIL THE ABOVE HAS BEEN IMPLEMENTED
+- A way of playing botb with other players (Need to break down the how, but would like to recreate the botb judge experience for normal players)
