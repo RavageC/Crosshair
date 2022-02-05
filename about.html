@@ -7,41 +7,33 @@
     <link href="/assets/css/about.css" rel="stylesheet" />
     <title>About Crosshair</title>
     <h1>About Crosshair</h1>
-    <img id="logo" src="assets/images/Logo.png" />
   </head>
   <body>
-    <p class="text">
-      My name is Callum and I've been building this browser extension whilst
-      I've been learning JavaScript. This seemed like a great starting project
-      and something that I believed would be useful for anyone who plays any of
-      the Spot The Ball competitions featured on botb.com.<br />
-      <br />
-      If you've found this tool helpful, I'd first like to thank you for taking
-      the time to evaluate this browser extension. You may make a donation to my
-      PayPal, but please don't feel you have to. I didn't do this for financial
-      gain but for my enjoyment of problem solving. This tool enhances my
-      experience when using BOTB and I hope it will do the same for others who
-      discover it.<br />
-      <br />
-    </p>
-
-    <div id="donate-button-container">
-      <div id="donate-button"></div>
-      <script
-        src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js"
-        charset="UTF-8"
-      ></script>
-      <script>
-        PayPal.Donation.Button({
-          env: "production",
-          hosted_button_id: "RMWYTCVDJ4CW8",
-          image: {
-            src: "https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif",
-            alt: "Donate with PayPal button",
-            title: "PayPal - The safer, easier way to pay online!",
-          },
-        }).render("#donate-button");
-      </script>
+    <div id="aboutmodal">
+        <p>
+          My name is Callum and I've been building this browser extension whilst
+          I've been learning JavaScript. This seemed like a great starting
+          project and something that I believed would be useful for anyone who
+          plays any of the Spot The Ball competitions featured on botb.com.<br />
+          <br />
+          If you've found this tool helpful, I'd first like to thank you for
+          taking the time to evaluate this browser extension. You may make a
+          donation to my<a
+          href="https://www.paypal.com/donate/?hosted_button_id=AKHD9XDPUZJ4N"
+          target="_blank"
+          >Paypal</a
+        >, but please don't feel you have to. I didn't do
+          this for financial gain but for my enjoyment of problem solving. This
+          tool enhances my experience when using BOTB and I hope it will do the
+          same for others who discover it.<br />
+          <br />
+          <!--Not a current player of BOTB? I have an affiliate link you can use to
+          sign up.-->Be aware that botb.com, while it constitutes a skill based
+          game, it does share similarities to gambling and so you should play
+          within your means.<br />
+          <br />
+        </p>
+      </div>
     </div>
   </body>
 </html>

@@ -1,6 +1,104 @@
 * {
   margin: 0;
+  padding-bottom: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  background-color: grey;
+  width: 500px;
+  font-family: "Wave";
+}
+
+@font-face {
+  font-family: "Wave";
+  font-style: normal;
+  font-weight: 700;
+  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/LTWave-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Wave-Bold";
+  font-style: bold;
+  font-weight: bold;
+  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/LTWave-Bold.ttf");
+}
+
+#average {
+  display: flex;
+  justify-content: space-between;
+  width: 97%;
+  margin: 5px;
+}
+
+#colorpicker {
+  width: 180px;
+  background-color: white;
+}
+
+#aboutbtn {
+  width: 100%;
+  padding-bottom: 20px;
+  margin: 5px;
+  display: inline-flex;
+  justify-content: center;
+  background-color: blue;
+  color: white;
+}
+
+#dropdown {
+  max-width: 200px;
+}
+
+#XY {
+  display: flex;
+  width: 97%;
+  justify-content: space-between;
+  font-family: "Wave-Bold";
+}
+
+#hidecoords {
+  width: 97%;
+  margin: 5px;
+  background-color: #ff8400;
+  /* color: white; */
+}
+
+#showcoords {
+  width: 97%;
+  margin: 5px;
+  background-color: #ff8400;
+  /* color: white; */
+}
+
+#showhidetarget {
+  width: 97%;
+  margin: 5px;
+  background-color: #ff8400;
+  /* color: white; */
+}
+
+b {
+  display: inline-block;
+  width: 20px;
+  font-size: 15px;
+}
+
+p {
+  font-family: "Wave-Bold";
+  font-size: 15px;
+}
+
+#about {
+  width: 97%;
+}
+
+#avgbtn {
+  background-color: #ff8400;
+}
+
+#X {
+  background-color: white;
+}
+
+#Y {
+  background-color: white;
 }

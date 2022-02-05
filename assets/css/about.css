@@ -1,37 +1,31 @@
 * {
-  margin: 0;
+  margin: 5px;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
-  background-color: rgb(155, 202, 255);
+  font-family: "Wave";
+  background-color: ghostwhite;
 }
 
-#logo {
-  float: left;
-  margin-right: 3%;
-  width: 400px;
+@font-face {
+  font-family: "Wave";
+  font-style: normal;
+  font-weight: 700;
+  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/LTWave-Regular.ttf");
 }
 
-.text {
-  float: right;
-  font-size: large;
+@font-face {
+  font-family: "Wave-Bold";
+  font-style: bold;
   font-weight: bold;
-  color: rgb(255, 255, 255);
-  background-color: chocolate;
-  border: 5px solid #444;
-  width: 800px;
-  padding: 25px;
-  margin: 30px;
+  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/LTWave-Bold.ttf");
+}
+
+p {
+  font-size: medium;
 }
 
 h1 {
   text-align: center;
   margin: 30px;
-  font-size: 55px;
-}
-
-#donate-button-container {
-  text-align: center;
-  position: absolute;
-  bottom: 2%;
+  font-size: 35px;
 }

@@ -8,13 +8,39 @@
     <title>Crosshair</title>
   </head>
   <body>
-    <h1>Crosshair</h1>
-    <button class="avgbtn" type="button">Calculate Average</button></br>
-    X<input id="X" type="number" readonly />Y<input id="Y" type="number" readonly /><br>
-    <button type="button">Toggle Gridlines</button><br>
-    <button type="button">Toggle Football</button><br>
-    <button type="button">Hide Co-ordinates</button><br>
-    <button type="button">About Crosshair</button><br>
+    <div id="average">
+      <button id="avgbtn" type="button" disabled>Calculate Average</button
+      >&nbsp;
+      <div id="dropdown">
+        <p id="avgtext">Average Cross Colour</p>
+        <select name="colorpicker" id="colorpicker" disabled>
+          <option value="yellow">Yellow</option>
+          <option value="red">Red</option>
+          <option value="purple">Purple</option>
+          <option value="cyan">Cyan</option>
+          <option value="green">Green</option>
+        </select>
+      </div>
+    </div>
+    <div id="XY">
+      &nbsp;<b>X</b>&nbsp;<input
+        id="X"
+        readonly
+        disabled
+      />&nbsp;<b>Y</b>&nbsp;<input id="Y" readonly disabled />
+    </div>
+    <div id="extrabuttons">
+      <button id="hidecoords" type="button" disabled>Hide Coordinates</button>
+      <button id="showcoords" type="button" disabled>Show Coordinates</button>
+      <button id="showhidetarget" type="button" disabled>
+        Show/Hide Draggable Target
+      </button>
+    </div>
+    <div id="about">
+      <a href="about.html"
+        ><button id="aboutbtn"><br />About Crosshair</button></a
+      >
+    </div>
   </body>
-  <script src="assets/scripts/popup.js"></script>
+  <script src="popup.js"></script>
 </html>
