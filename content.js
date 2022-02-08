@@ -2,6 +2,7 @@
 
 const xArray = [];
 const yArray = [];
+let savedCSS;
 
 window.addEventListener("load", function (_event) {
   chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
@@ -139,13 +140,16 @@ window.addEventListener("load", function (_event) {
         targetImg.src = chrome.runtime.getURL(
           "/assets/images/Targetwithcrosshair_cropped.png"
         );
+        const targetParent = document.getElementById("botbSpotGameContainer");
 
-        document.body.prepend(target);
+        targetParent.prepend(target);
         target.appendChild(targetImg);
 
         target.setAttribute("id", "targetZone");
         target.setAttribute("draggable", "true");
-        target.style.cssText = "position: absolute; z-index: 101;";
+        savedCSS == undefined
+          ? (target.style.cssText = "position: absolute; z-index: 101;")
+          : (target.style.cssText = savedCSS);
 
         let newPosX = 0,
           newPosY = 0,
@@ -176,7 +180,9 @@ window.addEventListener("load", function (_event) {
           target.style.left = target.offsetLeft - newPosX + "px";
         }
       } else {
-        document.getElementById("targetZone").remove();
+        const target = document.getElementById("targetZone");
+        savedCSS = target.style.cssText;
+        target.remove();
       }
       sendResponse("Task Completed");
     } else {
