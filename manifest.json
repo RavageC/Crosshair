@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Crosshair",
   "description": "Provides additional functionality when playing Spot The Ball at botb.com",
-  "version": "1.1",
+  "version": "1.2",
   "permissions": ["activeTab"],
   "icons": {
     "16": "/assets/icons/icon_16.png",
@@ -43,7 +43,7 @@
         "/assets/images/biggreenmarker.png",
         "/assets/images/Targetwithcrosshair_cropped.png",
         "/assets/fonts/LTWave-Regular.ttf",
-        "/assets/images/Logo.png"
+        "/assets/images/winnercross.png"
       ],
       "matches": ["<all_urls>"]
     }

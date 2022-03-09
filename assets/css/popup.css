@@ -69,6 +69,12 @@
   /* color: white; */
 }
 
+#practice {
+  width: 60%;
+  margin: 5px;
+  background-color: #ff8400;
+}
+
 #showhidetarget {
   width: 97%;
   margin: 5px;
@@ -100,5 +106,18 @@ p {
 }
 
 #Y {
+  background-color: white;
+}
+
+#competitiontype {
+  font-family: "Wave";
+  width: 20%;
+  background-color: white;
+  margin-left: 5px;
+}
+
+#competitionweekyear {
+  font-family: "Wave";
+  width: 15%;
   background-color: white;
 }
