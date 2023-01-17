@@ -9,8 +9,7 @@ let topSpotMarker;
 let leftZoomMarker;
 let topZoomMarker;
 
-let competitionType;
-let competitionWeekYear;
+let competitionCode;
 
 const calcAverage = function () {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -92,8 +91,7 @@ const disableButtons = function () {
   document.getElementById("colorpicker").disabled = true;
   document.getElementById("X").disabled = true;
   document.getElementById("Y").disabled = true;
-  document.getElementById("competitiontype").disabled = true;
-  document.getElementById("competitionweekyear").disabled = true;
+  document.getElementById("competitioncode").disabled = true;
   document.getElementById("avgtext").style.fontSize = "small";
   document.getElementById("avgtext").innerText =
     "Enables when playing Spot The Ball";
@@ -107,8 +105,8 @@ const enableButtons = function () {
   document.getElementById("colorpicker").disabled = false;
   document.getElementById("X").disabled = false;
   document.getElementById("Y").disabled = false;
-  document.getElementById("competitiontype").disabled = false;
   document.getElementById("avgtext").innerText = "Average Cross Colour";
+  document.getElementById("competitioncode").disabled = false;
 };
 
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
@@ -120,10 +118,10 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     );
     return true;
   } else if (request.message === "whichpic") {
-    competitionType = document.querySelector("#competitiontype").value; // e.g: DC or MW
-    competitionWeekYear = document.querySelector("#competitionweekyear").value; // Format WWYY
+    competitionCode = document.querySelector("#competitioncode").value; // e.g: DC0122 or MW5121
+  
 
-    sendResponse(`${competitionType}${competitionWeekYear}`);
+    sendResponse(`${competitionCode}`);
   }
 });
 
@@ -132,82 +130,9 @@ document.addEventListener("DOMContentLoaded", function (_event) {
     if (tabs[0].url.includes("www.botb.com/spot-the-ball")) {
       enableButtons();
 
-      document
-        .querySelector("#competitiontype")
-        .addEventListener("change", function () {
-          competitionType = document.querySelector("#competitiontype").value;
-          competitionWeekYear = document.querySelector(
-            "#competitionweekyear"
-          ).value;
-
-          const x = document.getElementById("competitionweekyear");
-          const currentDate = new Date();
-          let option;
-
-          if (competitionType === "dc") {
-            while (x.options.length > 0) {
-              x.remove(0);
-            }
-            x.disabled = false;
-            const firstWednesday = new Date(currentDate.getFullYear(), 0, 5);
-            const numberOfDays = Math.floor(
-              (currentDate - firstWednesday) / (24 * 60 * 60 * 1000)
-            );
-            const result = Math.floor(numberOfDays / 7);
-
-            for (let i = result; i > 0; i--) {
-              option = document.createElement("option");
-              i < 10 ? (option.text = `0${i}22`) : (option.text = `${i}22`);
-              x.add(option);
-            }
-
-            for (let i = 52; i > 5; i--) {
-              option = document.createElement("option");
-              i < 10 ? (option.text = `0${i}21`) : (option.text = `${i}21`);
-              x.add(option);
-            }
-          } else if (competitionType === "mw") {
-            while (x.options.length > 0) {
-              x.remove(0);
-            }
-            x.disabled = false;
-            const secondSaturday = new Date(currentDate.getFullYear(), 0, 8);
-            const numberOfDays = Math.floor(
-              (currentDate - secondSaturday) / (24 * 60 * 60 * 1000)
-            );
-            const result = Math.floor(numberOfDays / 7);
-            for (let i = result; i > 0; i--) {
-              option = document.createElement("option");
-              i < 10 ? (option.text = `0${i}22`) : (option.text = `${i}22`);
-              x.add(option);
-            }
-
-            for (let i = 52; i > 4; i--) {
-              option = document.createElement("option");
-              i < 10 ? (option.text = `0${i}21`) : (option.text = `${i}21`);
-              x.add(option);
-            }
-          } else {
-            x.disabled = true;
-            while (x.options.length > 0) {
-              x.remove(0);
-            }
-            document.getElementById("practice").disabled = true;
-          }
-        });
-
-      document
-        .querySelector("#competitionweekyear")
-        .addEventListener("change", function () {
-          competitionType = document.querySelector("#competitiontype").value;
-          competitionWeekYear = document.querySelector(
-            "#competitionweekyear"
-          ).value;
-
-          competitionWeekYear && competitionType != ""
-            ? (document.getElementById("practice").disabled = false)
-            : (document.getElementById("practice").disabled = true);
-        });
+      document.querySelector("#competitioncode").addEventListener("input", function () {
+        if(competitionCode != "" ? document.getElementById("practice").disabled = false : document.getElementById("practice").disabled = true);
+      })
 
       document.querySelector("#avgbtn").addEventListener("click", function () {
         calcAverage();

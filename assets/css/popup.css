@@ -70,7 +70,7 @@
 }
 
 #practice {
-  width: 60%;
+  width: 97%;
   margin: 5px;
   background-color: #ff8400;
 }
@@ -109,15 +109,13 @@ p {
   background-color: white;
 }
 
-#competitiontype {
-  font-family: "Wave";
-  width: 20%;
+#competitioncode {
   background-color: white;
-  margin-left: 5px;
 }
 
-#competitionweekyear {
-  font-family: "Wave";
-  width: 15%;
-  background-color: white;
+#compcodeandurl {
+  display: flex;
+  width: 97%;
+  justify-content: space-between;
+  font-family: "Wave-Bold";
 }
