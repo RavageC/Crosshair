@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Crosshair",
   "description": "Provides additional functionality when playing Spot The Ball at botb.com",
-  "version": "1.2",
+  "version": "1.5",
   "permissions": ["activeTab"],
   "icons": {
     "16": "/assets/icons/icon_16.png",

@@ -18,6 +18,10 @@ const calcAverage = function () {
       const xyArrays = response.toString().split(",").map(Number);
       average.length = 0; // Empty Array
 
+      const heightDivisor = xyArrays.pop();
+      const widthDivisor = xyArrays.pop();
+      console.log(xyArrays);
+
       for (let i = 0; i < xyArrays.length; i++) {
         if (i < xyArrays.length / 2) {
           xArrays.push(xyArrays[i]); // First half of the xyArrays is X Co-ordinates
@@ -42,8 +46,8 @@ const calcAverage = function () {
       document.getElementById("X").value = average[0];
       document.getElementById("Y").value = average[1];
 
-      leftSpotMarker = Math.floor(average[0] / 6 - 9);
-      topSpotMarker = Math.floor(average[1] / 6 - 9);
+      leftSpotMarker = Math.floor(average[0] / widthDivisor - 9);
+      topSpotMarker = Math.floor(average[1] / heightDivisor - 9);
       leftZoomMarker = Math.floor(average[0] - 9);
       topZoomMarker = Math.floor(average[1] - 9);
       return true;
@@ -149,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function (_event) {
             const numberOfDays = Math.floor(
               (currentDate - firstWednesday) / (24 * 60 * 60 * 1000)
             );
-            const result = Math.ceil((currentDate.getDay() + numberOfDays) / 7);
+            const result = Math.floor(numberOfDays / 7);
 
             for (let i = result; i > 0; i--) {
               option = document.createElement("option");
@@ -171,9 +175,7 @@ document.addEventListener("DOMContentLoaded", function (_event) {
             const numberOfDays = Math.floor(
               (currentDate - secondSaturday) / (24 * 60 * 60 * 1000)
             );
-            const result = Math.floor(
-              (currentDate.getDay() + numberOfDays) / 7
-            );
+            const result = Math.floor(numberOfDays / 7);
             for (let i = result; i > 0; i--) {
               option = document.createElement("option");
               i < 10 ? (option.text = `0${i}22`) : (option.text = `${i}22`);

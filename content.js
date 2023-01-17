@@ -9,6 +9,23 @@ window.addEventListener("load", function (_event) {
     if (request.message === "cord") {
       xArray.length = 0;
       yArray.length = 0;
+      const previewPicHeight = document
+        .getElementsByTagName("svg")[0]
+        .getAttribute("height");
+      const previewPicWidth = document
+        .getElementsByTagName("svg")[0]
+        .getAttribute("width");
+
+      const fullPicHeight = parseInt(
+        document.getElementById("botbSpotZoomWrapper").style.height
+      );
+      const fullPicWidth = parseInt(
+        document.getElementById("botbSpotZoomWrapper").style.width
+      );
+
+      const heightDivisor = fullPicHeight / previewPicHeight;
+      const widthDivisor = fullPicWidth / previewPicWidth;
+
       let numCoords = document.getElementsByClassName("botbSpotCoords");
       numCoords = Array.from(numCoords);
       for (const coord of numCoords) {
@@ -29,6 +46,10 @@ window.addEventListener("load", function (_event) {
         xArray.push(xcord);
         yArray.push(ycord);
       }
+
+      yArray.push(widthDivisor);
+      yArray.push(heightDivisor);
+
       sendResponse(`${[xArray, yArray]}`);
 
       chrome.runtime.sendMessage(
@@ -136,7 +157,7 @@ window.addEventListener("load", function (_event) {
     } else if (request.message === "showhidetarget") {
       if (document.getElementById("targetZone") == null) {
         const competitionTitle =
-          document.getElementsByClassName("competition_title")[0];
+          document.getElementsByClassName("game-title")[0];
         const target = document.createElement("div");
         const targetImg = document.createElement("img");
         targetImg.src = chrome.runtime.getURL(
@@ -144,11 +165,21 @@ window.addEventListener("load", function (_event) {
         );
         const targetParent = document.getElementById("botbSpotGameContainer");
 
+        const svgImg = document.getElementsByTagName("svg")[0];
+
+        const targetSize = (svgImg.getAttribute("width") / 736) * 275;
+
+        targetImg.width = targetSize;
+        targetImg.height = targetSize;
+
+        const fontSize = svgImg.getAttribute("width") / 30;
+
         if (!document.getElementById("shortcut")) {
           const shortcut = document.createElement("div");
-          competitionTitle.appendChild(shortcut);
+          document.body.append(shortcut);
           shortcut.setAttribute("id", "shortcut");
-          shortcut.innerHTML = "Shortcut to show/hide draggable target: 't'";
+          shortcut.style.cssText = `font-family: cb; font-size: ${fontSize}px; text-align: center;`;
+          shortcut.textContent = "Shortcut to show/hide draggable target: 't'";
         }
 
         targetParent.prepend(target);
@@ -202,11 +233,15 @@ window.addEventListener("load", function (_event) {
                   "/assets/images/Targetwithcrosshair_cropped.png"
                 );
 
+                targetImg.width = targetSize;
+                targetImg.height = targetSize;
+
                 if (!document.getElementById("shortcut")) {
                   const shortcut = document.createElement("div");
-                  competitionTitle.appendChild(shortcut);
+                  document.body.append(shortcut);
                   shortcut.setAttribute("id", "shortcut");
-                  shortcut.innerHTML =
+                  shortcut.style.cssText = `font-family: cb; font-size: ${fontSize}px; text-align: center;`;
+                  shortcut.textContent =
                     "Shortcut to show/hide draggable target: 't'";
                 }
 
@@ -264,7 +299,7 @@ window.addEventListener("load", function (_event) {
       chrome.runtime.sendMessage({ message: "whichpic" }, function (response) {
         const competitionid = response;
         const competitionTitle =
-          document.getElementsByClassName("competition_title")[0];
+          document.getElementsByClassName("game-title")[0];
 
         fetch(`https://www.botb.com/winners/${response}`).then(function (
           response
@@ -279,16 +314,11 @@ window.addEventListener("load", function (_event) {
           response.text().then(function (data) {
             const doc = new DOMParser().parseFromString(data, "text/html");
 
-            if (document.getElementById("shortcut")) {
-              competitionTitle.innerHTML = `Practice Spot The Ball - ${competitionid}`;
-              const shortcut = document.createElement("div");
-              competitionTitle.appendChild(shortcut);
-              shortcut.setAttribute("id", "shortcut");
-              shortcut.innerHTML =
-                "Shortcut to show/hide draggable target: 't'";
-            } else {
-              competitionTitle.innerHTML = `Practice Spot The Ball - ${competitionid}`;
-            }
+            const fontSize =
+              document.getElementsByTagName("svg")[0].getAttribute("width") /
+              30;
+
+            competitionTitle.textContent = `${competitionid}`;
 
             const currentDate = new Date().valueOf();
             const epoch = currentDate.toString();
@@ -319,12 +349,33 @@ window.addEventListener("load", function (_event) {
               judgeSelection.lastIndexOf(")")
             );
 
-            const instructions = document.createElement("div");
-            competitionTitle.appendChild(instructions);
-            instructions.innerHTML =
-              "Press 'j' on your keyboard to show the judged co-ordinate and press 'r' to remove it.";
+            const previewPicHeight = document
+              .getElementsByTagName("svg")[0]
+              .getAttribute("height");
+            const previewPicWidth = document
+              .getElementsByTagName("svg")[0]
+              .getAttribute("width");
+
+            const fullPicHeight = parseInt(
+              document.getElementById("botbSpotZoomWrapper").style.height
+            );
+            const fullPicWidth = parseInt(
+              document.getElementById("botbSpotZoomWrapper").style.width
+            );
+
+            const heightDivisor = fullPicHeight / previewPicHeight;
+            const widthDivisor = fullPicWidth / previewPicWidth;
 
             document.addEventListener("keydown", judgeCoordinate);
+
+            if (!document.getElementById("instructions")) {
+              const instructions = document.createElement("div");
+              document.body.append(instructions);
+              instructions.setAttribute("id", "instructions");
+              instructions.style.cssText = `font-family: cb; font-size: ${fontSize}px; text-align: center;`;
+              instructions.textContent =
+                "Press 'j' on your keyboard to show the judged co-ordinate and press 'r' to remove it.";
+            }
 
             function judgeCoordinate(e) {
               switch (e.key) {
@@ -350,9 +401,9 @@ window.addEventListener("load", function (_event) {
                       `botbSpotMarkerX${xjudged}Y${yjudged}`
                     );
                     judgedCross.style.cssText = `left: ${Math.floor(
-                      xjudged / 6 - 9
+                      xjudged / widthDivisor - 9
                     )}px; top: ${Math.floor(
-                      yjudged / 6 - 9
+                      yjudged / heightDivisor - 9
                     )}px; transform: inherit;`;
 
                     const judgedCrossZoom = document.createElement("div");
@@ -394,7 +445,7 @@ window.addEventListener("load", function (_event) {
                   }
                   break;
               }
-              let options = { attributes: true },
+              let options = { attributes: true, attributeFilter: ["style"] },
                 observer = new MutationObserver(callback);
 
               function callback(mutations) {
@@ -402,6 +453,9 @@ window.addEventListener("load", function (_event) {
                   if (mutation.type === "attributes") {
                     document.removeEventListener("keydown", judgeCoordinate);
                   }
+                }
+                if (document.getElementById("instructions")) {
+                  document.getElementById("instructions").remove();
                 }
                 observer.disconnect();
               }
