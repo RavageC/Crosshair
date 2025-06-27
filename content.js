@@ -6,15 +6,15 @@ let savedCSS;
 
 window.addEventListener("load", function (_event) {
   chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-    if (request.message === "cord") {
+    if (request.message === "cord") { // Start of coordinate capture
       xArray.length = 0;
       yArray.length = 0;
-      const previewPicHeight = document
-        .getElementsByTagName("svg")[0]
-        .getAttribute("height");
-      const previewPicWidth = document
-        .getElementsByTagName("svg")[0]
-        .getAttribute("width");
+      const previewPicHeight = parseInt(document
+        .getElementById("botbSpotImage") // Changed from .getElementsByTagName("svg")[0] to .getElementsByID("botbSpotImage").style.height - This change means the data capture is text hence the need for the parseInt() function
+        .style.height);
+      const previewPicWidth = parseInt(document
+        .getElementById("botbSpotImage") // Changed from .getElementsByTagName("svg")[0] to .getElementsByID("botbSpotImage").style.height - This change means the data capture is text hence the need for the parseInt() function
+        .style.width);
 
       const fullPicHeight = parseInt(
         document.getElementById("botbSpotZoomWrapper").style.height
@@ -53,7 +53,7 @@ window.addEventListener("load", function (_event) {
       sendResponse(`${[xArray, yArray]}`);
 
       chrome.runtime.sendMessage(
-        { message: "avgonscreen" },
+        { message: "avgonscreen" }, // Start of average on screen
         function (response) {
           const responseArray = response.toString().split(",");
           const colorPicked = responseArray.pop();
@@ -127,7 +127,7 @@ window.addEventListener("load", function (_event) {
           }
         }
       );
-    } else if (request.message === "hidecoords") {
+    } else if (request.message === "hidecoords") { // Start of hide coordinates
       let coordsPreviewHide = document.getElementsByClassName("botbSpotMarker");
       let coordsZoomedHide =
         document.getElementsByClassName("botbSpotZoomMarker");
@@ -141,7 +141,7 @@ window.addEventListener("load", function (_event) {
       }
 
       sendResponse("Task Completed");
-    } else if (request.message === "showcoords") {
+    } else if (request.message === "showcoords") { // Start of show coordinates
       let coordsPreviewShow = document.getElementsByClassName("botbSpotMarker");
       let coordsZoomedShow =
         document.getElementsByClassName("botbSpotZoomMarker");
@@ -154,7 +154,7 @@ window.addEventListener("load", function (_event) {
         coordInZoom.style.display = "block";
       }
       sendResponse("Task Completed");
-    } else if (request.message === "showhidetarget") {
+    } else if (request.message === "showhidetarget") { // Start of show/hide target
       if (document.getElementById("targetZone") == null) {
         const competitionTitle =
           document.getElementsByClassName("game-title")[0];
@@ -163,24 +163,30 @@ window.addEventListener("load", function (_event) {
         targetImg.src = chrome.runtime.getURL(
           "/assets/images/Targetwithcrosshair_cropped.png"
         );
-        const targetParent = document.getElementById("botbSpotGameContainer");
+        const targetParent = document.getElementById("botbSpotGameContainer"); // document.getElementById("botbSpotGameContainer"); Using "document.getElementById("botbSpotImage")" or "document.getElementById("botbSpotGameWrapper")" results in the target appearing, but cannot be dragged.
 
-        const svgImg = document.getElementsByTagName("svg")[0];
+        const svgImg = document.querySelector("#botbSpotImage > svg"); // Changed from .getElementsByTagName("svg")[0] to querySelector("#botbSpotImage > svg") - This dynamically finds the div botbSpotImage and finds the child svg
 
         const targetSize = (svgImg.getAttribute("width") / 736) * 275;
-
+        
         targetImg.width = targetSize;
         targetImg.height = targetSize;
 
         const fontSize = svgImg.getAttribute("width") / 30;
 
-        if (!document.getElementById("shortcut")) {
-          const shortcut = document.createElement("div");
-          document.body.append(shortcut);
-          shortcut.setAttribute("id", "shortcut");
-          shortcut.style.cssText = `font-family: cb; font-size: ${fontSize}px; text-align: center;`;
-          shortcut.textContent = "Shortcut to show/hide draggable target: 't'";
+        const targetinstructionsfunction = function () {
+          if (!document.getElementById("instructions")) {
+            const instructions = document.createElement("div");
+            document.body.append(instructions);
+            instructions.setAttribute("id", "instructions");
+            instructions.style.cssText = `position: sticky; font-family: cb; font-size: ${fontSize}px; color: black; font-weight: bold; text-align: center; bottom: 0; z-index: 2147483647; pointer-events: none; background: rgba(255, 255, 255, 0.4);`;
+            instructions.innerHTML = "<br>Shortcut to show/hide draggable target: 't'"; //added <br>
+          } else if (!document.getElementById("instructions").innerHTML.includes("Shortcut")) {
+            instructions.innerHTML += "<br>Shortcut to show/hide draggable target: 't'";
+          }
         }
+
+        targetinstructionsfunction();
 
         targetParent.prepend(target);
         target.appendChild(targetImg);
@@ -236,14 +242,7 @@ window.addEventListener("load", function (_event) {
                 targetImg.width = targetSize;
                 targetImg.height = targetSize;
 
-                if (!document.getElementById("shortcut")) {
-                  const shortcut = document.createElement("div");
-                  document.body.append(shortcut);
-                  shortcut.setAttribute("id", "shortcut");
-                  shortcut.style.cssText = `font-family: cb; font-size: ${fontSize}px; text-align: center;`;
-                  shortcut.textContent =
-                    "Shortcut to show/hide draggable target: 't'";
-                }
+                targetinstructionsfunction();
 
                 targetParent.prepend(target);
                 target.appendChild(targetImg);
@@ -295,7 +294,7 @@ window.addEventListener("load", function (_event) {
         target.remove();
       }
       sendResponse("Task Completed");
-    } else if (request.message === "practice") {
+    } else if (request.message === "practice") { //Start of practice
       chrome.runtime.sendMessage({ message: "whichpic" }, function (response) {
         const competitionid = response;
         const competitionTitle =
@@ -315,7 +314,7 @@ window.addEventListener("load", function (_event) {
             const doc = new DOMParser().parseFromString(data, "text/html");
 
             const fontSize =
-              document.getElementsByTagName("svg")[0].getAttribute("width") /
+            document.querySelector("#botbSpotImage > svg").getAttribute("width") /
               30;
 
             competitionTitle.textContent = `${competitionid}`;
@@ -349,12 +348,8 @@ window.addEventListener("load", function (_event) {
               judgeSelection.lastIndexOf(")")
             );
 
-            const previewPicHeight = document
-              .getElementsByTagName("svg")[0]
-              .getAttribute("height");
-            const previewPicWidth = document
-              .getElementsByTagName("svg")[0]
-              .getAttribute("width");
+            const previewPicHeight = document.querySelector("#botbSpotImage > svg").getAttribute("height");
+            const previewPicWidth = document.querySelector("#botbSpotImage > svg").getAttribute("width");
 
             const fullPicHeight = parseInt(
               document.getElementById("botbSpotZoomWrapper").style.height
@@ -372,20 +367,18 @@ window.addEventListener("load", function (_event) {
               const instructions = document.createElement("div");
               document.body.append(instructions);
               instructions.setAttribute("id", "instructions");
-              instructions.style.cssText = `font-family: cb; font-size: ${fontSize}px; text-align: center;`;
-              instructions.textContent =
-                "Press 'j' on your keyboard to show the judged co-ordinate and press 'r' to remove it.";
+              instructions.style.cssText = `position: sticky; font-family: cb; font-size: ${fontSize}px; color: black; font-weight: bold; text-align: center; bottom: 0; z-index: 2147483647; pointer-events: none; background: rgba(255, 255, 255, 0.4);`;
+              instructions.innerHTML =
+                "<br>Press 'j' on your keyboard to show the judged co-ordinate and press 'r' to remove it.";
+            } else if (!document.getElementById("instructions").innerHTML.includes("judged")) {
+              instructions.innerHTML += "<br>Press 'j' on your keyboard to show the judged co-ordinate and press 'r' to remove it.";
             }
 
             function judgeCoordinate(e) {
               switch (e.key) {
                 case "j":
                 case "J":
-                  if (
-                    !document.getElementById(
-                      `botbSpotMarkerX${xjudged}Y${yjudged}`
-                    )
-                  ) {
+                  if (!document.querySelector(".botbSpotMarker img[src$='winnercross.png']")) {
                     const judgedCross = document.createElement("div");
                     const judgedParent =
                       document.getElementById("botbSpotImage");
@@ -431,9 +424,10 @@ window.addEventListener("load", function (_event) {
                   const spotMarkers =
                     document.getElementsByClassName("botbSpotMarker");
 
-                  for (let i = 0; i < spotMarkers.length; i++) {
+                  for (let i = spotMarkers.length - 1; i >= 0; i--) {
                     if (
                       spotMarkers[i].children.length > 0 &&
+                      spotMarkers[i].childNodes[0].src &&
                       spotMarkers[i].childNodes[0].src.includes(
                         "winnercross.png"
                       )

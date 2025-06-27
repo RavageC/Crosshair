@@ -15,11 +15,10 @@ const calcAverage = function () {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { message: "cord" }, (response) => {
       const xyArrays = response.toString().split(",").map(Number);
-      average.length = 0; // Empty Array
+      average.length = 0; // Empty Array Ready for average to be calculated
 
       const heightDivisor = xyArrays.pop();
       const widthDivisor = xyArrays.pop();
-      console.log(xyArrays);
 
       for (let i = 0; i < xyArrays.length; i++) {
         if (i < xyArrays.length / 2) {
@@ -49,6 +48,7 @@ const calcAverage = function () {
       topSpotMarker = Math.floor(average[1] / heightDivisor - 9);
       leftZoomMarker = Math.floor(average[0] - 9);
       topZoomMarker = Math.floor(average[1] - 9);
+
       return true;
     });
   });
